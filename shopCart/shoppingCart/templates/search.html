@@ -1,0 +1,21 @@
+{%extends 'basic.html'%}
+{% block title %} Search {% endblock %}
+{% block content %}
+{% for i in products %}
+<div class="col-xs-3 col-sm-3 col-md-3">
+          <div class="card" style="width: 16rem;">
+            <img src='/media/{{i.image}}' class="card-img-top" alt="..." style="height: 200px">
+            <div class="card-body">
+              <h5 class="card-title">{{i.product_name}}</h5>
+              <p class="card-text">{{i.desc}}</p>
+              <div ><a href="products/{{i.id}}" id="{{i.id}}" class="btn btn-primary " style="width:40%">View</a>
+              <button onclick="addItems('{{i.id}}a','{{i.product_name}}','{{i.price}}')" type="button" class="btn btn-primary" id="{{i.id}}a" style="width:50%">Add to Cart</button>
+              </div>    
+            </div>
+          </div>
+        </div>
+
+{% endfor %}
+
+
+{% endblock %}

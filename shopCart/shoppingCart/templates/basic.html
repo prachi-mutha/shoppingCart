@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+          .col-md-3
+          {
+          display: inline-block;
+          margin-left:-4px;
+          }
+          
+          
+          body .carousel-indicator li{
+          background-color: blue;
+          }
+          body .carousel-indicators{
+          bottom: 0;
+          }
+          body .carousel-control-prev-icon,
+          body .carousel-control-next-icon{
+          background-color: blue;
+          }
+           body .no-padding{
+           padding-left: 0,
+           padding-right: 0;
+           }
+  </style>
+  </head>
+  <body>
+ 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">Shopping Cart</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'about' %}">About</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'tracker' %}">Tracker</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="search" method="get">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <button type="button" class="btn btn-success ml-2" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus
+sagittis lacus vel augue laoreet rutrum faucibus." data-html='true' id="popc">Cart
+</button>
+  </div>
+</nav>
+            
+
+
+{% block content%}
+{% endblock %}
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+   
+        
+
+    <script type="text/javascript">
+      $('#popc').popover()
+      document.getElementById("popc").setAttribute('data-content','<h2>Your Cart</h2>');
+
+    </script>
+    <script>
+                updatepop(); 
+                var itemkey;
+                function updatepop()
+                { var c=1;
+                  var popstr="";
+          
+                  Object.keys(sessionStorage).forEach((key)=>{
+                  itemkey=key;
+                  popstr=popstr+c+". "+JSON.parse(sessionStorage.getItem(key))[0]+' '+'Rs '+JSON.parse(sessionStorage.getItem(key))[1]+' '+"<button class='btn btn-primary my-3 ml-3 my-sm-1' type='button' onclick={removeitm(itemkey)}  >X</button>"+'<br/>';c=c+1;});
+
+                  popstr=popstr+"<a href='{% url 'checkout' %}'><button class='btn btn-primary my-2 my-sm-0' type='submit'>Checkout</button></a>";
+                    document.getElementById('popc').setAttribute('data-content',popstr);
+                }
+                function removeitm(k)
+                {
+                  sessionStorage.removeItem(k);
+                   document.getElementById(k).innerHTML = "Add to Cart";
+                  updatepop();
+                  $('#popc').popover('show');
+                  
+                }
+                function addItems(iid,prod,price) {
+                  var values=[];
+                  values.push(prod,price);
+                    sessionStorage.setItem(iid,JSON.stringify(values));
+                 document.getElementById(iid).innerHTML = "Added ";
+                 updatepop();$('#popc').popover('show');
+                   
+              }
+              var item=" ";
+              for (var i=0;i< sessionStorage.length;i++)
+                item=sessionStorage.key(i)+item;
+              document.getElementById('items').setAttribute('value',item);
+
+            </script>
+
+  </body>
+</html>

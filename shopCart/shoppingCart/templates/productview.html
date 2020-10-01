@@ -1,0 +1,28 @@
+{%extends 'basic.html'%}
+{% block title %} productview{% endblock %}
+{% block content %}
+{% load static %}
+<div class="container">
+	<form action="{% url 'checkout' %}" method="POST">
+	{% csrf_token %}
+	<div class="row my-3">
+	<div class="col-md-4">
+		<div class="row">
+			<img src="/media/{{product.image}}" height="355px" width="355px">
+		</div>
+		<div class="row">
+			
+			
+		</div>
+	</div>
+	<div class="col-md-8">
+		<h5>{{product.product_name}}</h5>
+		<p><b>Rs</b> {{product.price}}</p>
+		<p>{{product.desc}}</p>
+
+
+	</div>
+    </div>
+    </form>
+</div>
+{% endblock %}

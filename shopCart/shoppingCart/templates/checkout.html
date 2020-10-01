@@ -1,0 +1,98 @@
+{%extends 'basic.html'%}
+{% block title %} productview{% endblock %}
+{% block content %}
+
+<div class="container my-1" >
+<h2>Review Your Order</h2>
+<table class="table table-sm" >
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Price (Rs)</th>
+    </tr>
+  </thead>
+  <tbody id="tables">
+  	<script>
+  		var total=0;
+  	for (var i=0;i< sessionStorage.length;i++){
+    var table = document.getElementById("tables")
+    var row = table.insertRow(0);
+    var cell1= row.insertCell(0);
+    var cell2= row.insertCell(1);
+    var cell3= row.insertCell(2);
+    cell1.innerHTML=Number(sessionStorage.length-i);    
+    cell2.innerHTML=JSON.parse(sessionStorage.getItem(sessionStorage.key(i)))[0];
+    cell3.innerHTML='Rs '+JSON.parse(sessionStorage.getItem(sessionStorage.key(i)))[1];
+    total=total+Number(JSON.parse(sessionStorage.getItem(sessionStorage.key(i)))[1]);
+}
+    var table = document.getElementById("tables")
+    var row = table.insertRow(-1);
+    var cell1= row.insertCell(0);
+    var cell2= row.insertCell(1);
+    var cell3= row.insertCell(2);
+    cell2.innerHTML="Total";
+    cell3.innerHTML='Rs '+total;
+
+</script>
+  </tbody>
+</table>
+<h2>CheckOut</h2>
+<form action="orders" method="post">
+{% csrf_token %}
+  <div class="form-row ">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Email</label>
+      <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Email" required>
+    </div>
+    
+    	<input type="text" name="item" value="n" id="items" hidden>
+    
+    <div class="form-group col-md-6">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="name">Phone No.</label>
+      <input type="tel" class="form-control" id="name" name="phone" placeholder="Phone No." required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">Address</label>
+    <input type="text" class="form-control" id="inputAddress" name="address" placeholder="1234 Main St" required>
+  </div>
+  
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">City</label>
+      <input type="text" class="form-control" name="city" id="inputCity" required>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputState">State</label>
+      <select id="inputState" name="state" class="form-control" required>
+        <option selected>Choose...</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Madhya Pradesh">Madhya Pradesh</option>
+        <option value="Gujrat">Gujrat</option>
+        <option value="Rajasthan">Rajasthan</option>
+
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputZip">Zip</label>
+      <input type="text" class="form-control" name="zip" id="inputZip" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck" required>
+      <label class="form-check-label" for="gridCheck">
+        Check me out
+      </label>
+    </div>
+  </div>
+  <input type="text" name="prod_id" hidden value="{{'product_id'}}">
+  <button type="submit" class="btn btn-primary">Checkout</button>
+</form>
+</div>
+{% endblock %}
